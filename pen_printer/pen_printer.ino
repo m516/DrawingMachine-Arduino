@@ -1,6 +1,7 @@
 #include <AccelStepper.h>
 #define D 15.0
 #define MAX_SPEED 700.0
+#define WINCH_DIAMETER 0.3346456692913386
 //Stepper motors
 //I'm using two 28BYJ-48 steppers with ULN2003 Darlington arrays
 //This one is on ports 2, 3, 4, and 5...
@@ -15,11 +16,6 @@ float x;
 float y;
 float a;
 float b;
-
-//Variables that aid in testing -- not required for
-//actual drawing
-float init_x;
-float init_y;
 
 void setup() {
   //Set properties of motors
@@ -129,12 +125,12 @@ void goTo(float newX, float newY, float threshold) {
 }
 
 float stepsToLength(long steps) {
-  //return steps      *       circumference        / number of steps per full rotation
-  return float(steps) *  (0.3346456692913386 * PI) / 4096.0;
+  //return steps      *       circumference    / number of steps per full rotation
+  return float(steps) *  (WINCH_DIAMETER * PI) / 4096.0;
 }
 long lengthToSteps(float len) {
   //           length    * number of steps per full rotation / circumference
-  return long(float(len) *           4096.0                  / (0.3346456692913386 * PI));
+  return long(float(len) *           4096.0                  / (WINCH_DIAMETER * PI));
 }
 
 
